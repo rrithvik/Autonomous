@@ -25,7 +25,7 @@ void initializeRobot()
 
 void ereset()
 {
-	nMotorEncoder[motorD] = 0;
+  nMotorEncoder[motorD] = 0;
   nMotorEncoder[motorE] = 0;
   nMotorEncoder[motorF] = 0;
   nMotorEncoder[motorH] = 0;
@@ -35,10 +35,10 @@ void ereset()
 
 void moveforward()
 {
-	motor[motorD] = 50;
-	motor[motorE] = 50;
-	motor[motorF] = 50;
-	motor[motorE] = 50;
+   motor[motorD] = 50;
+   motor[motorE] = 50;
+   motor[motorF] = 50;
+   motor[motorE] = 50;
 }
 
 task main()
