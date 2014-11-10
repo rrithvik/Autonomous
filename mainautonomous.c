@@ -47,8 +47,7 @@ task main()
 
   waitForStart();
 
-
-	moveforward();
+  moveforward();
   wait1Msec(1000);
   
   ereset();
