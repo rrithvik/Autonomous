@@ -41,7 +41,7 @@ void moveforward()//moves forward
    motor[motorE] = 50;
 }
 
-task main()
+task main()//part of code the robot runs
 {
   initializeRobot();
 
