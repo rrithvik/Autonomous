@@ -1,4 +1,5 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  HTServo)
+#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Motor,  mtr_S1_C1_1,     motorD,        tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     motorE,        tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     motorF,        tmotorTetrix, PIDControl, encoder)
@@ -17,42 +18,58 @@
 
 void initializeRobot()
 {
-  servo[servo1] = 0;
-  servo[servo2] = 244;
+	servo[servo1] = 0;
+	servo[servo2] = 244;
 
-  return;
+	return;
 }
 
-void ereset()//resets the motor encoder values
+void ereset()
 {
-  nMotorEncoder[motorD] = 0;
-  nMotorEncoder[motorE] = 0;
-  nMotorEncoder[motorF] = 0;
-  nMotorEncoder[motorH] = 0;
+	nMotorEncoder[motorD] = 0;
+	nMotorEncoder[motorE] = 0;
+	nMotorEncoder[motorF] = 0;
+	nMotorEncoder[motorG] = 0;
 
-  return;
+	return;
 }
 
-void moveforward()//moves forward
+void moveforward()
 {
-   motor[motorD] = 50;
-   motor[motorE] = 50;
-   motor[motorF] = 50;
-   motor[motorE] = 50;
+	motor[motorD] = 50;
+	motor[motorE] = 50;
+	motor[motorF] = 50;
+	motor[motorG] = 50;
+
+	return;
 }
 
-task main()//part of code the robot runs
+void movebackwards()
 {
-  initializeRobot();
+	motor[motorD] = -50;
+	motor[motorE] = -50;
+	motor[motorF] = -50;
+	motor[motorG] = -50;
 
-  waitForStart();
+	return;
+}
 
-  moveforward();
-  wait1Msec(1000);
+task main()
+{
+	initializeRobot();
 
-  ereset(); //resets the motor encoder values
+	waitForStart();
 
-  moveforward(); //runs the command moveforwars, stated as a vcariable b4
-  wait1Msec(300); // amount of time the robot moves forward/follows^that command
-}  //end
-//Rayyaanles and Jeffles
+	moveforward();
+	wait1Msec(3300);
+
+	motor[motorD] = -10;
+	motor[motorE] = 50;
+	motor[motorF] = -10;
+	motor[motorG] = 50;
+	wait1Msec(1700);
+
+	moveforward();
+	wait1Msec(1200);
+
+}
