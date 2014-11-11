@@ -16,24 +16,24 @@
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 
 void initializeRobot()
-{	  
+{
   servo[servo1] = 0;
-  servo[servo2] = 244; 
+  servo[servo2] = 244;
 
   return;
 }
 
-void ereset()
+void ereset()//resets the motor encoder values
 {
   nMotorEncoder[motorD] = 0;
   nMotorEncoder[motorE] = 0;
   nMotorEncoder[motorF] = 0;
   nMotorEncoder[motorH] = 0;
-  
-  return;
-}	
 
-void moveforward()
+  return;
+}
+
+void moveforward()//moves forward
 {
    motor[motorD] = 50;
    motor[motorE] = 50;
@@ -49,9 +49,10 @@ task main()
 
   moveforward();
   wait1Msec(1000);
-  
-  ereset();
- 	
-  moveforward();
-  wait1Msec(300);
-}
+
+  ereset(); //resets the motor encoder values
+
+  moveforward(); //runs the command moveforwars, stated as a vcariable b4
+  wait1Msec(300); // amount of time the robot moves forward/follows^that command
+}  //end
+//Rayyaanles and Jeffles
