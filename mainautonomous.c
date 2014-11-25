@@ -25,7 +25,7 @@ void initializeRobot()
 	return;
 }
 
-void ereset()
+void ereset() //reset the encoder 
 {
 	nMotorEncoder[motorD] = 0;
 	nMotorEncoder[motorE] = 0;
@@ -35,7 +35,7 @@ void ereset()
 	return;
 }
 
-void moveforward()
+void moveforward() //move the robot forward
 {
 	motor[motorD] = 50;
 	motor[motorE] = 50;
@@ -45,7 +45,7 @@ void moveforward()
 	return;
 }
 
-void turnleft()
+void turnleft() //make the robot turn left
 {
 	motor[motorD] = -10;
 	motor[motorE] = 50;
@@ -55,7 +55,7 @@ void turnleft()
 	return;
 }
 
-void turnright()
+void turnright() //make the robot turn right
 {
 	motor[motorD] = 50;
 	motor[motorE] = -10;
@@ -65,7 +65,7 @@ void turnright()
 	return;
 }
 
-void movebackward()
+void movebackward() //make the robot move backwards
 {
 	motor[motorD] = -50;
 	motor[motorE] = -50;
