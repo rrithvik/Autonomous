@@ -81,7 +81,7 @@ void brake()
 	motor[motorE] = 0;
 	motor[motorF] = 0;
 	motor[motorG] = 0;
-	
+
 	return;
 }
 
@@ -94,29 +94,46 @@ task main()
 	waitForStart();
 
 	moveforward();
-	wait1Msec(3300);
+	wait1Msec(4200);
 
 	turnleft();
-	wait1Msec(1600);
-	
+	wait1Msec(1300);
+
 	movebackward();
 	wait1Msec(800);
-	
+
 	brake();
 	wait1Msec(1000);
 
 	moveforward();
-	wait1Msec(1000);
-	
-	turnleft();
-	wait1Msec(800);
-	
-	moveforward();
-	wait1Msec(1500);	
-	
-	turnright();
 	wait1Msec(1300);
-	
-	moveforward();
-	wait1Msec(2000);
+
+	turnleft();
+	wait1Msec(1600);
+
+	if (SensorValue(irs) == 5)
+	{	turnleft();
+		wait1Msec(800);
+
+		moveforward();
+		wait1Msec(1500);
+	}
+
+	else
+	{
+		turnleft();
+		wait1Msec(100);
+
+		moveforward();
+		wait1Msec(1500);
+	}
+
+	while (SensorValue(irs) != 5)
+	{
+		turnright();
+		wait1Msec(950);
+
+		moveforward();
+		wait1Msec(1050);
+	}
 }
