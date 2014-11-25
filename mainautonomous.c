@@ -75,6 +75,16 @@ void movebackward()
 	return;
 }
 
+void brake()
+{
+	motor[motorD] = 0;
+	motor[motorE] = 0;
+	motor[motorF] = 0;
+	motor[motorG] = 0;
+	
+	return;
+}
+
 task main()
 {
 	initializeRobot();
@@ -87,17 +97,26 @@ task main()
 	wait1Msec(3300);
 
 	turnleft();
-	wait1Msec(1650);
+	wait1Msec(1600);
 	
 	movebackward();
-	wait1Msec(300);
+	wait1Msec(800);
+	
+	brake();
+	wait1Msec(1000);
 
 	moveforward();
-	wait1Msec(1200);
+	wait1Msec(1000);
 	
 	turnleft();
-	wait1Msec(2000);
+	wait1Msec(800);
 	
 	moveforward();
 	wait1Msec(1500);	
+	
+	turnright();
+	wait1Msec(1300);
+	
+	moveforward();
+	wait1Msec(2000);
 }
