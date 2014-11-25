@@ -45,6 +45,7 @@ void moveforward()
 	return;
 }
 
+<<<<<<< HEAD
 void turnleft()
 {
 	motor[motorD] = -10;
@@ -65,6 +66,8 @@ void turnright()
 	return;
 }
 
+=======
+>>>>>>> origin/master
 void movebackward()
 {
 	motor[motorD] = -50;
@@ -75,6 +78,29 @@ void movebackward()
 	return;
 }
 
+<<<<<<< HEAD
+=======
+void turnleft()
+{
+	motor[motorD] = -10;
+	motor[motorE] = 50;
+	motor[motorF] = -10;
+	motor[motorG] = 50;
+
+	return;
+}
+
+void turnright()
+{
+	motor[motorD] = 50;
+	motor[motorE] = -10;
+	motor[motorF] = 50;
+	motor[motorG] = -10;
+
+	return;
+}
+
+>>>>>>> origin/master
 void brake()
 {
 	motor[motorD] = 0;
@@ -94,10 +120,17 @@ task main()
 	waitForStart();
 
 	moveforward();
+<<<<<<< HEAD
 	wait1Msec(3400);
 
 	turnleft();
 	wait1Msec(1500);
+=======
+	wait1Msec(4200);
+
+	turnleft();
+	wait1Msec(1300);
+>>>>>>> origin/master
 
 	movebackward();
 	wait1Msec(800);
@@ -106,6 +139,7 @@ task main()
 	wait1Msec(1000);
 
 	moveforward();
+<<<<<<< HEAD
 	wait1Msec(1400);
 
 	turnright();
@@ -114,6 +148,15 @@ task main()
 	if (SensorValue(irs) == 5)
 	{
 		turnleft();
+=======
+	wait1Msec(1300);
+
+	turnleft();
+	wait1Msec(1600);
+
+	if (SensorValue(irs) == 5)
+	{	turnleft();
+>>>>>>> origin/master
 		wait1Msec(800);
 
 		moveforward();
@@ -123,6 +166,7 @@ task main()
 	else
 	{
 		turnleft();
+<<<<<<< HEAD
 		wait1Msec(2000);
 
 		moveforward();
@@ -148,4 +192,20 @@ task main()
                 wait1Msec(1200);
         }
   
+=======
+		wait1Msec(100);
+
+		moveforward();
+		wait1Msec(1500);
+	}
+
+	while (SensorValue(irs) != 5)
+	{
+		turnright();
+		wait1Msec(950);
+
+		moveforward();
+		wait1Msec(1050);
+	}
+>>>>>>> origin/master
 }
