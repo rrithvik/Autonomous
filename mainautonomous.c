@@ -45,6 +45,16 @@ void moveforward()
 	return;
 }
 
+void movebackward()
+{
+	motor[motorD] = -50;
+	motor[motorE] = -50;
+	motor[motorF] = -50;
+	motor[motorG] = -50;
+
+	return;
+}
+
 void turnleft()
 {
 	motor[motorD] = -10;
@@ -61,16 +71,6 @@ void turnright()
 	motor[motorE] = -10;
 	motor[motorF] = 50;
 	motor[motorG] = -10;
-
-	return;
-}
-
-void movebackward()
-{
-	motor[motorD] = -50;
-	motor[motorE] = -50;
-	motor[motorF] = -50;
-	motor[motorG] = -50;
 
 	return;
 }
