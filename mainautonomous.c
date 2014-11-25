@@ -1,5 +1,5 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  HTServo)
-#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S2,     irs,            sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  mtr_S1_C1_1,     motorD,        tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     motorE,        tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     motorF,        tmotorTetrix, PIDControl, encoder)
@@ -19,7 +19,8 @@
 void initializeRobot()
 {
 	servo[servo1] = 0;
-	servo[servo2] = 244;
+	servo[servo2] = 256;
+	servo[servo3] = 256;
 
 	return;
 }
@@ -44,7 +45,27 @@ void moveforward()
 	return;
 }
 
-void movebackwards()
+void turnleft()
+{
+	motor[motorD] = -10;
+	motor[motorE] = 50;
+	motor[motorF] = -10;
+	motor[motorG] = 50;
+
+	return;
+}
+
+void turnright()
+{
+	motor[motorD] = 50;
+	motor[motorE] = -10;
+	motor[motorF] = 50;
+	motor[motorG] = -10;
+
+	return;
+}
+
+void movebackward()
 {
 	motor[motorD] = -50;
 	motor[motorE] = -50;
@@ -58,18 +79,25 @@ task main()
 {
 	initializeRobot();
 
+	ereset();
+
 	waitForStart();
 
 	moveforward();
 	wait1Msec(3300);
 
-	motor[motorD] = -10;
-	motor[motorE] = 50;
-	motor[motorF] = -10;
-	motor[motorG] = 50;
-	wait1Msec(1700);
+	turnleft();
+	wait1Msec(1650);
+	
+	movebackward();
+	wait1Msec(300);
 
 	moveforward();
 	wait1Msec(1200);
-
+	
+	turnleft();
+	wait1Msec(2000);
+	
+	moveforward();
+	wait1Msec(1500);	
 }
