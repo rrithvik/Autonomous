@@ -1,13 +1,13 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  HTServo)
-#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S2,     irs,            sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  mtr_S1_C1_1,     motorD,        tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     motorE,        tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     motorF,        tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C2_2,     motorG,        tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C3_1,     motorH,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C3_2,     motorI,        tmotorTetrix, openLoop, reversed)
-#pragma config(Servo,  srvo_S1_C4_1,    servo1,               tServoNone)
-#pragma config(Servo,  srvo_S1_C4_2,    servo2,               tServoNone)
+#pragma config(Servo,  srvo_S1_C4_1,    servo1,               tServoStandard)
+#pragma config(Servo,  srvo_S1_C4_2,    servo2,               tServoStandard)
 #pragma config(Servo,  srvo_S1_C4_3,    servo3,               tServoNone)
 #pragma config(Servo,  srvo_S1_C4_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S1_C4_5,    servo5,               tServoNone)
@@ -18,21 +18,134 @@
 
 void initializeRobot()
 {
+	servo[servo1] = 0;
+	servo[servo2] = 256;
+	servo[servo3] = 256;
 
-  return;
+	return;
 }
 
+void ereset()
+{
+	nMotorEncoder[motorD] = 0;
+	nMotorEncoder[motorE] = 0;
+	nMotorEncoder[motorF] = 0;
+	nMotorEncoder[motorG] = 0;
 
+	return;
+}
+
+void moveforward()
+{
+	motor[motorD] = 50;
+	motor[motorE] = 50;
+	motor[motorF] = 50;
+	motor[motorG] = 50;
+
+	return;
+}
+
+void turnleft()
+{
+	motor[motorD] = -10;
+	motor[motorE] = 50;
+	motor[motorF] = -10;
+	motor[motorG] = 50;
+
+	return;
+}
+
+void turnright()
+{
+	motor[motorD] = 50;
+	motor[motorE] = -10;
+	motor[motorF] = 50;
+	motor[motorG] = -10;
+
+	return;
+}
+
+void movebackward()
+{
+	motor[motorD] = -50;
+	motor[motorE] = -50;
+	motor[motorF] = -50;
+	motor[motorG] = -50;
+
+	return;
+}
+
+void brake()
+{
+	motor[motorD] = 0;
+	motor[motorE] = 0;
+	motor[motorF] = 0;
+	motor[motorG] = 0;
+
+	return;
+}
 
 task main()
 {
-  initializeRobot();
+	initializeRobot();
 
-  waitForStart(); 
-	
-  nMotorEncoder[motorD] = 0;
-  nMotorEncoder[motorE] = 0;
-  nMotorEncoder[motorF] = 0;
-  nMotorEncoder[motorH] = 0;
-	
+	ereset();
+
+	waitForStart();
+
+	moveforward();
+	wait1Msec(3400);
+
+	turnleft();
+	wait1Msec(1500);
+
+	movebackward();
+	wait1Msec(800);
+
+	brake();
+	wait1Msec(1000);
+
+	moveforward();
+	wait1Msec(1400);
+
+	turnright();
+	wait1Msec(2200);
+
+	if (SensorValue(irs) == 5)
+	{
+		turnleft();
+		wait1Msec(800);
+
+		moveforward();
+		wait1Msec(1500);
+	}
+
+	else
+	{
+		turnleft();
+		wait1Msec(2000);
+
+		moveforward();
+		wait1Msec(1200);
+	}
+
+        
+        if (SensorValue(irs) == 5)
+        {
+                turnleft();
+                wait1Msec(800);
+                
+                moveforward();
+                wait1Msec(1500);
+        }
+        
+        else
+        {
+                turnleft();
+                wai1Msec(2000);
+                
+                moveforward();
+                wait1Msec(1200);
+        }
+  
 }
