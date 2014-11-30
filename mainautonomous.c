@@ -29,6 +29,10 @@ void initializeRobot()
 	servo[servo2] = 256;
 	servo[servo3] = 256;
 
+	motor[motorH] = 3;
+	motor[motorI] = 3;
+	wait1Msec(30);
+
 	return;
 }
 
@@ -44,10 +48,10 @@ void ereset() //reset the encoder
 
 void moveforward() //move the robot forward
 {
-	motor[motorD] = 25;
-	motor[motorE] = 25;
-	motor[motorF] = 25;
-	motor[motorG] = 25;
+	motor[motorD] = 50;
+	motor[motorE] = 50;
+	motor[motorF] = 50;
+	motor[motorG] = 50;
 
 	return;
 }
@@ -74,10 +78,10 @@ void turnright() //make the robot turn right
 
 void movebackward() //make the robot move backwards
 {
-	motor[motorD] = -25;
-	motor[motorE] = -25;
-	motor[motorF] = -25;
-	motor[motorG] = -25;
+	motor[motorD] = -50;
+	motor[motorE] = -50;
+	motor[motorF] = -50;
+	motor[motorG] = -50;
 
 	return;
 }
@@ -92,6 +96,10 @@ void brake()
 	return;
 }
 
+int ch;
+
+bool yesir = SensorValue(irs) >= 3 && SensorValue(irs) <= 7;
+
 task main()
 {
 	initializeRobot();
@@ -100,66 +108,81 @@ task main()
 
 	waitForStart();
 
-	moveforward();
-	wait1Msec(3400);
+	ch = 1;
 
-
-	turnleft();
-	wait1Msec(1500);
-
-	movebackward();
-	wait1Msec(800);
-
-	brake();
-	wait1Msec(1000);
-
-	moveforward();
-	wait1Msec(1400);
-
-	turnright();
-	wait1Msec(2200);
-
-	movebackward();
-	wait1Msec(500);
-
-	if (SensorValue(irs) == 5)
+	while(ch == 1)
 	{
-		turnleft();
-		wait1Msec(800);
-
 		moveforward();
+		wait1Msec(3900);
+
+		turnleft();
 		wait1Msec(1500);
-	}
 
-	else
-	{
-		moveforward();
-		wait1Msec(500);
-		
-		turnleft();
-		wait1Msec(2000);
+		movebackward();
+		wait1Msec(700);
+
+		brake();
+		wait1Msec(1000);
 
 		moveforward();
-		wait1Msec(1200);
-	}
+		wait1Msec(1900);
 
-
-	if (SensorValue(irs) == 5)
-	{
-		turnleft();
-		wait1Msec(800);
-
-		moveforward();
+		turnright();
 		wait1Msec(1500);
-	}
 
-	else
-	{
-		turnleft();
-		wait1Msec(2000);
+		movebackward();
+		wait1Msec(1500);
 
-		moveforward();
-		wait1Msec(1200);
+		if (SensorValue(irs) >= 3 && SensorValue(irs) <= 7)
+		{
+			while(SensorValue(irs) < 5)
+			{
+				moveforward();
+			}
+
+			while(SensorValue(irs) > 5)
+			{
+				movebackward();
+			}
+
+			moveforward();
+			wait1Msec(1000);
+
+			turnleft();
+			wait1Msec(1600);
+
+			moveforward();
+			wait1Msec(1500);
+
+			ch = 0;
+		}
+
+		if(yesir == false)
+		{
+			moveforward();
+			wait1Msec(1000);
+
+			turnleft();
+			wait1Msec(200);
+		}
+
+		else if (yesir == true)
+		{
+			turnleft();
+			wait1Msec(800);
+
+			moveforward();
+			wait1Msec(1500);
+		}
+
+		else
+		{
+			turnleft();
+			wait1Msec(2000);
+
+			moveforward();
+			wait1Msec(1200);
+		}
 	}
 }
 
