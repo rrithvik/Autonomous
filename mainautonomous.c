@@ -29,10 +29,6 @@ void initializeRobot()
 	servo[servo2] = 256;
 	servo[servo3] = 256;
 
-	motor[motorH] = 3;
-	motor[motorI] = 3;
-	wait1Msec(30);
-
 	return;
 }
 
@@ -96,6 +92,78 @@ void brake()
 	return;
 }
 
+void pone()
+{
+	while(SensorValue(irs) < 5)
+	{
+		moveforward();
+	}
+
+	while(SensorValue(irs) > 5)
+	{
+		movebackward();
+	}
+}
+
+void ptwo()
+{
+	moveforward();
+	wait1Msec(1600);
+
+	turnleft();
+	wait1Msec(700);
+
+	moveforward();
+	wait1Msec(200);
+
+	if(yesir == true)
+	{
+		while(SensorValue(irs) < 5)
+		{
+			moveforward();
+		}
+
+		while(SensorValue(irs) > 5)
+		{
+			movebackward();
+		}
+
+		moveforward();
+		wait1Msec(300);
+
+		turnleft();
+		wait1Msec(1800);
+
+		moveforward();
+		wait1Msec(1000);
+
+		ch = 0;
+	}
+
+	moveforward();
+	wait1Msec(300);
+
+	turnleft();
+	wait1Msec(1800);
+
+	moveforward();
+	wait1Msec(1000);
+
+	ch = 0;
+}
+
+void pthree()
+{
+	moveforward();
+	wait1Msec(1000);
+
+	turnleft();
+	wait1Msec(1600);
+
+	moveforward();
+	wait1Msec(1000);
+}
+
 int ch;
 
 bool yesir = SensorValue(irs) >= 4 && SensorValue(irs) <= 6;
@@ -131,7 +199,7 @@ task main()
 		wait1Msec(1500);
 
 		movebackward();
-		wait1Msec(1500);
+		wait1Msec(1300);
 
 		if (yesir == true)
 		{
@@ -158,7 +226,7 @@ task main()
 		}
 
 		if(yesir == false)
-		{			
+		{
 			moveforward();
 			wait1Msec(1600);
 
@@ -188,7 +256,7 @@ task main()
 
 				moveforward();
 				wait1Msec(1000);
-				
+
 				ch = 0;
 			}
 
@@ -203,7 +271,6 @@ task main()
 				moveforward();
 				wait1Msec(1000);
 			}
-
 		}
 	}
 }
