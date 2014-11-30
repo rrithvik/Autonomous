@@ -98,7 +98,7 @@ void brake()
 
 int ch;
 
-bool yesir = SensorValue(irs) >= 3 && SensorValue(irs) <= 7;
+bool yesir = SensorValue(irs) >= 4 && SensorValue(irs) <= 6;
 
 task main()
 {
@@ -133,7 +133,7 @@ task main()
 		movebackward();
 		wait1Msec(1500);
 
-		if (SensorValue(irs) >= 3 && SensorValue(irs) <= 7)
+		if (yesir == true)
 		{
 			while(SensorValue(irs) < 5)
 			{
@@ -149,39 +149,61 @@ task main()
 			wait1Msec(1000);
 
 			turnleft();
-			wait1Msec(1600);
+			wait1Msec(2800);
 
 			moveforward();
-			wait1Msec(1500);
+			wait1Msec(1000);
 
 			ch = 0;
 		}
 
 		if(yesir == false)
-		{
+		{			
 			moveforward();
-			wait1Msec(1000);
+			wait1Msec(1600);
 
 			turnleft();
+			wait1Msec(700);
+
+			moveforward();
 			wait1Msec(200);
-		}
 
-		else if (yesir == true)
-		{
-			turnleft();
-			wait1Msec(800);
+			if(yesir == true)
+			{
+				while(SensorValue(irs) < 5)
+				{
+					moveforward();
+				}
 
-			moveforward();
-			wait1Msec(1500);
-		}
+				while(SensorValue(irs) > 5)
+				{
+					movebackward();
+				}
 
-		else
-		{
-			turnleft();
-			wait1Msec(2000);
+				moveforward();
+				wait1Msec(300);
 
-			moveforward();
-			wait1Msec(1200);
+				turnleft();
+				wait1Msec(1800);
+
+				moveforward();
+				wait1Msec(1000);
+				
+				ch = 0;
+			}
+
+			if (yesir == false)
+			{
+				moveforward();
+				wait1Msec(1000);
+
+				turnleft();
+				wait1Msec(1600);
+
+				moveforward();
+				wait1Msec(1000);
+			}
+
 		}
 	}
 }
