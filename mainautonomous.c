@@ -132,10 +132,9 @@ task main()
 		brake();
 		wait1Msec(200);
 
-		ch = 0;
-
-		if (SensorRaw(irs) <= 7 && SensorRaw(irs) >= 3)
+		if (SensorRaw(irs) <= 6 && SensorRaw(irs) >= 4)
 		{
+			
 			brake();
 			wait1Msec(200);
 
@@ -143,7 +142,7 @@ task main()
 			wait1Msec(1000);
 
 			turnleft();
-			wait1Msec(2900);
+			wait1Msec(1600);
 
 			moveforward();
 			wait1Msec(900);
@@ -154,10 +153,10 @@ task main()
 		if(yesir == false)
 		{			
 			moveforward();
-			wait1Msec(300);
+			wait1Msec(400);
 
 			turnleft();
-			wait1Msec(1000);
+			wait1Msec(100);
 
 			moveforward();
 			wait1Msec(150);
