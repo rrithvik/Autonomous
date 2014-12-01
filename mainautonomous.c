@@ -132,7 +132,7 @@ task main()
 		brake();
 		wait1Msec(200);
 
-		if (SensorRaw(irs) <= 6 && SensorRaw(irs) >= 4)
+ (SensorRaw(irs) <= 6 && SensorRaw(irs) >= 4)
 		{
 			
 			brake();
