@@ -29,10 +29,6 @@ void initializeRobot()
 	servo[servo2] = 256;
 	servo[servo3] = 256;
 
-	motor[motorH] = 3;
-	motor[motorI] = 3;
-	wait1Msec(30);
-
 	return;
 }
 
@@ -98,7 +94,7 @@ void brake()
 
 int ch;
 
-bool yesir = SensorValue(irs) >= 4 && SensorValue(irs) <= 6;
+bool yesir = SensorRaw(irs) >= 3 && SensorRaw(irs) <= 7;
 
 task main()
 {
@@ -125,33 +121,26 @@ task main()
 		wait1Msec(1000);
 
 		moveforward();
-		wait1Msec(1700);
+		wait1Msec(1600);
 
 		turnright();
-		wait1Msec(1700);//1800
+		wait1Msec(1700);
 
 		movebackward();
-		wait1Msec(2200);
+		wait1Msec(1200);
 
-		servo[servo3] = 256;
-		
 		brake();
 		wait1Msec(200);
-		
-		int i=0;
-		while(i==0)
-		{
-			moveforward();
-			if(SensorValue(irs)==5)
-			{
-				i=1;	
-			}
-		}
 
-		if (yesir == true)
+		ch = 0;
+
+		if (SensorRaw(irs) <= 7 && SensorRaw(irs) >= 3)
 		{
+			brake();
+			wait1Msec(200);
+
 			moveforward();
-			wait1Msec(700);
+			wait1Msec(1000);
 
 			turnleft();
 			wait1Msec(2900);
@@ -163,33 +152,23 @@ task main()
 		}
 
 		if(yesir == false)
-		{
+		{			
 			moveforward();
-			wait1Msec(1600);
+			wait1Msec(300);
 
 			turnleft();
-			wait1Msec(700);
+			wait1Msec(1000);
 
 			moveforward();
-			wait1Msec(200);
+			wait1Msec(150);
 
-			if(yesir == true)
+			if(SensorRaw(irs) <= 7 && SensorRaw(irs) >= 3)
 			{
-				while(SensorValue(irs) < 5)
-				{
-					moveforward();
-				}
-
-				while(SensorValue(irs) > 5)
-				{
-					movebackward();
-				}
-
 				moveforward();
 				wait1Msec(300);
 
 				turnleft();
-				wait1Msec(1800);
+				wait1Msec(2200);
 
 				moveforward();
 				wait1Msec(1000);
@@ -213,4 +192,4 @@ task main()
 }
 
 //The Metal Magicians
-//Jeffles
+//JLIM
