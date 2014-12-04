@@ -106,6 +106,8 @@ task main()
 
 	ch = 1;
 
+	brake();
+	wait1Msec(300);
 	while(ch == 1)
 	{
 		moveforward();
@@ -132,51 +134,69 @@ task main()
 		brake();
 		wait1Msec(200);
 
- (SensorRaw(irs) <= 6 && SensorRaw(irs) >= 4)
+		if (SensorRaw(irs) == 5)
 		{
-			
 			brake();
 			wait1Msec(200);
 
 			moveforward();
-			wait1Msec(1000);
+			wait1Msec(1300);
 
 			turnleft();
-			wait1Msec(1600);
+			wait1Msec(1700);
 
 			moveforward();
 			wait1Msec(900);
 
 			ch = 0;
+
+			brake();
+			wait10Msec(3000);
 		}
 
-		if(yesir == false)
-		{			
+		else
+		{
 			moveforward();
-			wait1Msec(400);
+			wait1Msec(1000);
 
 			turnleft();
-			wait1Msec(100);
+			wait1Msec(800);
 
 			moveforward();
-			wait1Msec(150);
+			wait1Msec(300);
 
-			if(SensorRaw(irs) <= 7 && SensorRaw(irs) >= 3)
+			if(SensorRaw(irs) == 5)
 			{
 				moveforward();
-				wait1Msec(300);
+				wait1Msec(500);
 
 				turnleft();
-				wait1Msec(2200);
+				wait1Msec(1600);
 
 				moveforward();
 				wait1Msec(1000);
 
 				ch = 0;
+
+				brake();
+				wait10Msec(3000);
+
 			}
 
-			if (yesir == false)
+			else
 			{
+				moveforward();
+				wait1Msec(1000);
+
+				turnleft();
+				wait1Msec(2000);
+
+				moveforward();
+				wait1Msec(1000);
+
+				turnleft();
+				wait1Msec(1500);
+
 				moveforward();
 				wait1Msec(1000);
 
@@ -184,8 +204,8 @@ task main()
 				wait1Msec(1600);
 
 				moveforward();
-				wait1Msec(1000);
-			}
+				wait1Msec(2000);
+				}
 		}
 	}
 }
