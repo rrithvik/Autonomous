@@ -111,26 +111,23 @@ task main()
 	while(ch == 1)
 	{
 		moveforward();
-		wait1Msec(3900);
+		wait1Msec(3500);
 
 		turnleft();
 		wait1Msec(1500);
 
 		movebackward();
-		wait1Msec(300);
+		wait1Msec(400);
 
 		brake();
 		wait1Msec(1000);
 
 		moveforward();
-		wait1Msec(1600);
-
+		wait1Msec(700);
+		
 		turnright();
-		wait1Msec(1700);
-
-		movebackward();
-		wait1Msec(1200);
-
+		wait1Msec(400);
+		
 		brake();
 		wait1Msec(200);
 
@@ -151,7 +148,7 @@ task main()
 			ch = 0;
 
 			brake();
-			wait10Msec(3000);
+			wait1Msec(30000);
 		}
 
 		else
@@ -179,7 +176,7 @@ task main()
 				ch = 0;
 
 				brake();
-				wait10Msec(3000);
+				wait1Msec(30000);
 
 			}
 
@@ -205,9 +202,10 @@ task main()
 
 				moveforward();
 				wait1Msec(2000);
-				}
+			}
 		}
 	}
 }
 
 //The Metal Magicians
+//The World
