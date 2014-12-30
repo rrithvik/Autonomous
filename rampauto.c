@@ -1,6 +1,8 @@
 #pragma config(Hubs,  S2, HTMotor,  HTMotor,  HTMotor,  HTServo)
 #pragma config(Hubs,  S3, HTServo,  none,     none,     none)
 #pragma config(Sensor, S1,     irs,            sensorHiTechnicIRSeeker1200)
+#pragma config(Sensor, S2,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S3,     ,               sensorI2CMuxController)
 #pragma config(Motor,  mtr_S2_C1_1,     motorD,        tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C1_2,     motorE,        tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S2_C2_1,     motorF,        tmotorTetrix, PIDControl, encoder)
@@ -10,11 +12,11 @@
 #pragma config(Servo,  srvo_S2_C4_1,    servo1,               tServoStandard)
 #pragma config(Servo,  srvo_S2_C4_2,    servo2,               tServoStandard)
 #pragma config(Servo,  srvo_S2_C4_3,    servo3,               tServoStandard)
-#pragma config(Servo,  srvo_S2_C4_4,    servo4,               tServoContinuousRotation)
-#pragma config(Servo,  srvo_S2_C4_5,    servo5,               tServoContinuousRotation)
+#pragma config(Servo,  srvo_S2_C4_4,    servo4,               tServoStandard)
+#pragma config(Servo,  srvo_S2_C4_5,    servo5,               tServoStandard)
 #pragma config(Servo,  srvo_S2_C4_6,    servo6,               tServoContinuousRotation)
-#pragma config(Servo,  srvo_S3_C1_1,    servo7,               tServoNone)
-#pragma config(Servo,  srvo_S3_C1_2,    servo8,               tServoNone)
+#pragma config(Servo,  srvo_S3_C1_1,    servo7,               tServoStandard)
+#pragma config(Servo,  srvo_S3_C1_2,    servo8,               tServoContinuousRotation)
 #pragma config(Servo,  srvo_S3_C1_3,    servo9,               tServoNone)
 #pragma config(Servo,  srvo_S3_C1_4,    servo10,              tServoNone)
 #pragma config(Servo,  srvo_S3_C1_5,    servo11,              tServoNone)
@@ -23,11 +25,17 @@
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 
-void initializeRobot()
+int ch; // defines integer
+
+void initializeRobot() // resets all servos to starting position
 {
 	servo[servo1] = 0;
 	servo[servo2] = 256;
-	servo[servo3] = 256;
+	servo[servo3] = 247;
+	servo[servo4] = 0;
+  servo[servo7] = 256;
+  servo[servo5] = 0;
+  servo[servo8] = 256;
 
 	return;
 }
@@ -82,7 +90,7 @@ void movebackward() //make the robot move backwards
 	return;
 }
 
-void brake()
+void brake() //temporary stop
 {
 	motor[motorD] = 0;
 	motor[motorE] = 0;
@@ -91,10 +99,6 @@ void brake()
 
 	return;
 }
-
-int ch;
-
-bool yesir = SensorRaw(irs) >= 3 && SensorRaw(irs) <= 7;
 
 task main()
 {
@@ -108,104 +112,116 @@ task main()
 
 	brake();
 	wait1Msec(300);
-	while(ch == 1)
 	{
-		moveforward();
-		wait1Msec(3500);
+		motor[motorH] = 50;
+		motor[motorI] = 50;
+		wait1Msec(300);
+		motor[motorH] = 0;
+		motor[motorI] = 0;
 
-		turnleft();
-		wait1Msec(1500);
+		moveforward(); //move forward to get off the ramp
+		wait1Msec(3650);
 
-		movebackward();
-		wait1Msec(400);
+		brake(); //temporary stop
+		wait1Msec(300);
+
+		turnleft(); //turn  left to face the center goal structure
+		wait1Msec(1550);
 
 		brake();
-		wait1Msec(1000);
+		wait1Msec(100);
 
-		moveforward();
-		wait1Msec(700);
-		
-		turnright();
-		wait1Msec(400);
-		
+		moveforward();// move forward to the center goal structure
+		wait1Msec(1350);
+
+		turnleft(); //turn left to check if the center goal structure is in position 1
+		wait1Msec(1550);
+
 		brake();
-		wait1Msec(200);
+		wait1Msec(100);
 
-		if (SensorRaw(irs) == 5)
+		ch = 0;
+
 		{
-			brake();
-			wait1Msec(200);
+		if (SensorRaw(irs) > 3 && SensorRaw(irs) < 7)
+			{ //center goal is in the 1 position
 
-			moveforward();
-			wait1Msec(1300);
+				while(SensorRaw(irs) < 5)
+				{
+					movebackward();
+				}
 
-			turnleft();
-			wait1Msec(1700);
+				while(SensorRaw(irs) > 5)
+				{
+					moveforward();
+				}
 
-			moveforward();
-			wait1Msec(900);
+				moveforward(); // move forward to be adjacent to the kickstand
+				wait1Msec(800);
 
-			ch = 0;
+				brake(); //temporary stop
+				wait1Msec(50);
 
-			brake();
-			wait1Msec(30000);
-		}
+				turnright(); //turn right to face the kickstand
+				wait1Msec(1650);
 
-		else
-		{
-			moveforward();
-			wait1Msec(1000);
+				brake(); //temporary stop
+				wait1Msec(100);
 
-			turnleft();
-			wait1Msec(800);
+				moveforward(); //moveforward to knock down the kickstand
+				wait1Msec(1250);
 
-			moveforward();
-			wait1Msec(300);
-
-			if(SensorRaw(irs) == 5)
-			{
-				moveforward();
-				wait1Msec(500);
-
-				turnleft();
-				wait1Msec(1600);
-
-				moveforward();
-				wait1Msec(1000);
-
-				ch = 0;
-
-				brake();
-				wait1Msec(30000);
-
+				//for testing only
+				motor[motorH] = -50;
+				motor[motorI] = -50;
+				wait1Msec(300);
+				motor[motorH] = 0;
+				motor[motorI] = 0;
 			}
 
-			else
-			{
-				moveforward();
-				wait1Msec(1000);
+			else if(SensorRaw(irs) <= 3 || SensorRaw(irs) >= 7)
+			{ //center goal is in position 2/3
+				movebackward();
+				wait1Msec(900);
 
 				turnleft();
-				wait1Msec(2000);
+				wait1Msec(900);
 
-				moveforward();
-				wait1Msec(1000);
+				movebackward();
+				wait1Msec(1250);
 
-				turnleft();
-				wait1Msec(1500);
+				ch = 0;
+			}
 
-				moveforward();
-				wait1Msec(1000);
+		if (SensorRaw(irs) >= 7 && SensorRaw(irs) <= 8)
+			{ //center goal is in the 1 position
 
-				turnleft();
-				wait1Msec(1600);
+				while(SensorRaw(irs) < 5)
+				{
+					movebackward();
+				}
+				 	moveforward();
+					wait1Msec(500);
 
-				moveforward();
-				wait1Msec(2000);
+					turnright();
+					wait1Msec(900);
+
+					moveforward();
+					wait1Msec(1000);
+				}
+
+				else
+				{
+					moveforward();
+				 	wait1Msec(1150);
+
+				 	turnright();
+				 	wait1Msec(1550);
+
+				 	moveforward();
+				 	wait1Msec(1000);
 			}
 		}
 	}
 }
-
 //The Metal Magicians
-//The World
