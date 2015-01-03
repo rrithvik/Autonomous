@@ -33,9 +33,9 @@ void initializeRobot() // resets all servos to starting position
 	servo[servo2] = 256;
 	servo[servo3] = 247;
 	servo[servo4] = 0;
-  servo[servo7] = 256;
-  servo[servo5] = 0;
-  servo[servo8] = 256;
+	servo[servo7] = 256;
+	servo[servo5] = 0;
+	servo[servo8] = 256;
 
 	return;
 }
@@ -120,7 +120,7 @@ task main()
 		motor[motorI] = 0;
 
 		moveforward(); //move forward to get off the ramp
-		wait1Msec(3650);
+		wait1Msec(3550);
 
 		brake(); //temporary stop
 		wait1Msec(300);
@@ -128,100 +128,109 @@ task main()
 		turnleft(); //turn  left to face the center goal structure
 		wait1Msec(1550);
 
-		brake();
+		brake(); //temporary stop
 		wait1Msec(100);
 
 		moveforward();// move forward to the center goal structure
-		wait1Msec(1350);
+		wait1Msec(1250);
 
-		turnleft(); //turn left to check if the center goal structure is in position 1
-		wait1Msec(1550);
+		turnleft();
+		wait1Msec(1500);
+
+		moveforward();
+		wait1Msec(150);
 
 		brake();
 		wait1Msec(100);
 
-		ch = 0;
+		if (SensorRaw(irs) > 3 && SensorRaw(irs) < 7)//checks for the ir value to know if the center goal structure is at postion 1
+		{ //center goal structure is in the 1
 
-		{
-		if (SensorRaw(irs) > 3 && SensorRaw(irs) < 7)
-			{ //center goal is in the 1 position
-
-				while(SensorRaw(irs) < 5)
-				{
-					movebackward();
-				}
-
-				while(SensorRaw(irs) > 5)
-				{
-					moveforward();
-				}
-
-				moveforward(); // move forward to be adjacent to the kickstand
-				wait1Msec(800);
-
-				brake(); //temporary stop
-				wait1Msec(50);
-
-				turnright(); //turn right to face the kickstand
-				wait1Msec(1650);
-
-				brake(); //temporary stop
-				wait1Msec(100);
-
-				moveforward(); //moveforward to knock down the kickstand
-				wait1Msec(1250);
-
-				//for testing only
-				motor[motorH] = -50;
-				motor[motorI] = -50;
-				wait1Msec(300);
-				motor[motorH] = 0;
-				motor[motorI] = 0;
-			}
-
-			else if(SensorRaw(irs) <= 3 || SensorRaw(irs) >= 7)
-			{ //center goal is in position 2/3
+			while(SensorRaw(irs) < 5)//if the ir value is less than 5, move back until it is 5
+			{
 				movebackward();
-				wait1Msec(900);
+			}
 
-				turnleft();
-				wait1Msec(900);
+			while(SensorRaw(irs) > 5)//if the ir value is more than 5, move forward until it is 5
+			{
+				moveforward();
+			}
 
+			moveforward(); // move forward to be adjacent to the kickstand
+			wait1Msec(550);
+
+			brake(); //temporary stop
+			wait1Msec(50);
+
+			turnright(); //turn right to face the kickstand
+			wait1Msec(1400);
+
+			brake(); //temporary stop
+			wait1Msec(100);
+
+			moveforward(); //moveforward to knock down the kickstand and to be adjacent to the ir beacon and center goal
+			wait1Msec(1250);
+
+			brake();
+			wait10Msec(3000);
+
+			movebackward();
+			wait1Msec(400);
+
+			turnleft();//turn right to be right under the center goal
+			wait1Msec(1550);
+
+			moveforward();//move forward to be able to sense the ir beacon
+			wait1Msec(800);
+
+			motor[motorH] = -50;//resets the initialize
+			motor[motorI] = -50;
+			wait1Msec(300);
+			motor[motorH] = 0;//stops the 80/20 so that it does not move
+			motor[motorI] = 0;
+		}
+
+		else if(SensorRaw(irs) <= 3 || SensorRaw(irs) >= 7)//if the ir sensor senses a value between 3 and 7
+		{ //center goal is in position 2/3
+			movebackward();//move the robot back to be adjacent to the ir beacon
+			wait1Msec(900);
+
+			turnleft();//turns left to check for position 2.
+			wait1Msec(900);
+
+			movebackward();//moves abckwards to be next to the ir beacon
+			wait1Msec(1250);
+
+			ch = 0;//gives the integer chicks the value of of 0
+		}
+
+		if (SensorRaw(irs) >= 7 && SensorRaw(irs) <= 8)//if ir value is between 7 and 8
+		{ //center goal structure is in the 3 position
+
+			while(SensorRaw(irs) < 5)//if it senses a value less than 5 until it senses at 5
+			{
 				movebackward();
-				wait1Msec(1250);
-
-				ch = 0;
 			}
+			moveforward();//moves the robot forward to be adjacent to the
+			wait1Msec(500);
 
-		if (SensorRaw(irs) >= 7 && SensorRaw(irs) <= 8)
-			{ //center goal is in the 1 position
+			turnright();//turn right to face the kickstand
+			wait1Msec(900);
 
-				while(SensorRaw(irs) < 5)
-				{
-					movebackward();
-				}
-				 	moveforward();
-					wait1Msec(500);
+			moveforward();//knocks down the kickstand
+			wait1Msec(1000);
+		}
 
-					turnright();
-					wait1Msec(900);
+		else
+		{ //center goal structure is in the 2 position
+			moveforward();//move forward to be adjacent to the kickstand
+			wait1Msec(1259);
 
-					moveforward();
-					wait1Msec(1000);
-				}
+			turnright();//turn right to face the kickstand
+			wait1Msec(1600);
 
-				else
-				{
-					moveforward();
-				 	wait1Msec(1150);
-
-				 	turnright();
-				 	wait1Msec(1550);
-
-				 	moveforward();
-				 	wait1Msec(1000);
-			}
+			moveforward();//move forward to knock down the kickstand
+			wait1Msec(1500);
 		}
 	}
 }
-//The Metal Magicians
