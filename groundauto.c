@@ -205,7 +205,7 @@ task main()
 		}
 
 		else
-		{ //center goal structure is in the 2 position			
+		{ //center goal structure is in the 2 position
 			moveforward();//move forward to be adjacent to the kickstand
 			wait1Msec(1259);
 
