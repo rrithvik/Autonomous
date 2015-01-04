@@ -101,7 +101,7 @@ void brake() //temporary stop
 }
 
 task main()
-{
+{      
 	initializeRobot();
 
 	ereset();
@@ -212,7 +212,7 @@ task main()
 				movebackward();
 			}
 			moveforward();//moves the robot forward to be adjacent to the
-			wait1Msec(500);
+			wait1Msec(450);
 
 			turnright();//turn right to face the kickstand
 			wait1Msec(900);
@@ -234,3 +234,4 @@ task main()
 		}
 	}
 }
+//The Metal Magicians
